@@ -1,0 +1,3 @@
+- hosts: sardor_rtx
+  roles:
+    - role: app-perfmormance-monitoring

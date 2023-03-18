@@ -1,0 +1,31 @@
+---
+- name: Install aws otel collector
+  become: yes
+  apt:
+    deb: https://aws-otel-collector.s3.amazonaws.com/debian/amd64/v0.26.2/aws-otel-collector.deb
+
+- name: Transform aws otel config file template
+  become: yes
+  template:
+    src: aws_otel_collector_config.j2
+    dest: "{{ aws_otel_config_path }}"
+
+- name: Set aws-otel-collector service env vars
+  become: yes
+  template:
+    src: aws_otel_collector_service_env.j2
+    dest: "/opt/aws/aws-otel-collector/etc/.env"
+    
+
+- name: Start aws-otel-collector service
+  become: yes
+  service:
+    name: aws-otel-collector
+    state: started
+
+# - name: Remove aws otel collector
+#   become: yes
+#   apt:
+#     name: aws-otel-collector
+#     purge: true
+#     state: absent

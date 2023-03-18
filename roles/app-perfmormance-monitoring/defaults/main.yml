@@ -1,0 +1,4 @@
+---
+user: sardor
+service_description: "App performance monitoring: AWS Distro for OpenTelemetry Collector service"
+aws_otel_config_path: "/opt/aws/aws-otel-collector/aws_otel_collector_config.yml"

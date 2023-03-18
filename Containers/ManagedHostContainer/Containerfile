@@ -1,0 +1,10 @@
+FROM rastasheep/ubuntu-sshd
+RUN apt-get update
+RUN apt-get install -y curl
+# RUN echo "PubkeyAuthentication yes" > /etc/ssh/sshd_config
+# RUN mkdir -p /root/.ssh
+# RUN touch /root/.ssh/authorized_keys
+# COPY ./managed_host_key.pub /root/.ssh/authorized_keys
+# RUN echo 'root:root' | chpasswd
+EXPOSE 22
+ENTRYPOINT [ "/sbin/init" ]
