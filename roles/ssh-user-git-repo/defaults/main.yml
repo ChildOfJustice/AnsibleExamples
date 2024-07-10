@@ -1,0 +1,6 @@
+---
+git_configs_user:
+  username: git #https://git-scm.com/book/en/v2/Git-on-the-Server-Setting-Up-the-Server
+  comment: "User for access to internal git repo"
+  key: "no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty ssh-rsa ... managed_container_rsa"
+  shell: "{{ git_shell_location.stdout.strip() }}"

@@ -1,0 +1,8 @@
+- name: Gather the package facts
+  package_facts:
+    manager: auto
+
+- name: Fetch git-shell location
+  shell: which git-shell
+  register: git_shell_location
+  when: "'git' in ansible_facts.packages"

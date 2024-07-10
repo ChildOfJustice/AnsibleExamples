@@ -1,0 +1,35 @@
+
+- name: Add git-shell to /etc/shells
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/shells
+    line: "{{ git_shell_location.stdout.strip() }}"
+    create: true
+    mode: 0440
+  when: git_shell_location is defined
+
+- name: add git_repo_user
+  become: yes
+  user:
+    name: "{{ git_configs_user.username }}"
+    shell: "{{ git_configs_user.shell | default(omit) }}"
+    comment: "{{ git_configs_user.comment | default(omit) }}"
+    createhome: yes
+    state: present
+    password: "{{ git_configs_user.password|default(omit) }}"
+    groups: "{{ git_configs_user.groups|default(omit) }}"
+    append: "{{ git_configs_user.groups_append|default('yes') }}"
+  when:
+    - "'git' in ansible_facts.packages"
+    - git_shell_location is defined
+
+- name: Install SSH key for git_configs_user
+  become: true
+  authorized_key:
+    user: "{{ git_configs_user.username }}"
+    key: "{{ git_configs_user.key }}"
+    manage_dir: yes
+    exclusive: yes
+  when:
+    - "'git' in ansible_facts.packages"
+    - git_shell_location is defined
